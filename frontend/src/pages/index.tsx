@@ -26,7 +26,6 @@ const Home = () => {
   useEffect(() => {
     if (auth.user && auth.user.role) {
       const homeRoute = getHomeRoute(auth.user.role)
-
       // Redirect user to Home URL
       router.replace(homeRoute)
     }
