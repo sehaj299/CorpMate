@@ -4,7 +4,7 @@
   "info": {
     "singularName": "department",
     "pluralName": "departments",
-    "displayName": "Department",
+    "displayName": "department",
     "description": ""
   },
   "options": {
@@ -12,17 +12,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "companyId": {
-      "type": "string",
-      "required": true
-    },
-    "companyName": {
-      "type": "string",
-      "required": true
+    "departmentname": {
+      "type": "string"
     },
     "resources": {
       "type": "relation",

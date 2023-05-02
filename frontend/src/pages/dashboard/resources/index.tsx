@@ -1,5 +1,5 @@
 // ** React Import
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useMemo, useState , useEffect } from "react";
 
 // ** MUI Imports
 import Box from "@mui/material/Box";
@@ -7,7 +7,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { TextField } from "@mui/material";
-
+import axios from "axios";
 // ** Icon Imports
 import Icon from "src/@core/components/icon";
 
@@ -25,13 +25,17 @@ import ActionsDropdown from "src/views/components/dropdowns/actionsDropdown";
 
 interface TableBodyRowType {
   id: number;
-  user_name: string
-  email: string;
-  avatarSrc?: string;
-  phone_number?: string;
-  status: "Active" | "Pending" | "Deactive";
-  role?: string;
-  profile_image_url?: string;
+  attributes: {
+    name: string;
+    email: string
+  }
+//   name: string
+//   email: string;
+//   avatarSrc?: string;
+//  phone?: string;
+//   status: "Active" | "Pending" | "Deactive";
+//   role?: string;
+//   profile_image_url?: string;
 }
 
 interface CellType {
@@ -50,185 +54,61 @@ interface StatusObj {
   };
 }
 
-const roleObj: RoleObj = {
-  Admin: {
-    icon: (
-      <Box
-        component="span"
-        sx={{ display: "flex", mr: 2, color: "error.main" }}
-      >
-        <Icon icon="mdi:laptop" />
-      </Box>
-    ),
-  },
-  "Finance Manager": {
-    icon: (
-      <Box
-        component="span"
-        sx={{ display: "flex", mr: 2, color: "warning.main" }}
-      >
-        <Icon icon="mdi:cog" />
-      </Box>
-    ),
-  },
-  "Support Manager": {
-    icon: (
-      <Box
-        component="span"
-        sx={{ display: "flex", mr: 2, color: "success.main" }}
-      >
-        <Icon icon="mdi:chart-donut" />
-      </Box>
-    ),
-  },
-  "Support Specialist": {
-    icon: (
-      <Box component="span" sx={{ display: "flex", mr: 2, color: "info.main" }}>
-        <Icon icon="mdi:pencil-outline" />
-      </Box>
-    ),
-  },
-  Subscriber: {
-    icon: (
-      <Box
-        component="span"
-        sx={{ display: "flex", mr: 2, color: "primary.main" }}
-      >
-        <Icon icon="mdi:account-outline" />
-      </Box>
-    ),
-  },
-  "Basic Subscriber": {
-    icon: (
-      <Box
-        component="span"
-        sx={{ display: "flex", mr: 2, color: "primary.main" }}
-      >
-        <Icon icon="mdi:account-outline" />
-      </Box>
-    ),
-  },
-  "Standard Subscriber": {
-    icon: (
-      <Box
-        component="span"
-        sx={{ display: "flex", mr: 2, color: "primary.main" }}
-      >
-        <Icon icon="mdi:account-outline" />
-      </Box>
-    ),
-  },
-  "Premium Subscriber": {
-    icon: (
-      <Box
-        component="span"
-        sx={{ display: "flex", mr: 2, color: "primary.main" }}
-      >
-        <Icon icon="mdi:account-outline" />
-      </Box>
-    ),
-  },
-};
+
 
 const statusObj: StatusObj = {
   Active: { color: "success" },
   Pending: { color: "warning" },
   Deactive: { color: "secondary" },
 };
-const rows: TableBodyRowType[] = [
-  {
-    id: 1,
-    role: 'Admin',
-    status: 'Pending',
-    user_name: '@jstevenson5c',
-    email: 'susanna.Lind57@gmail.com',
-    avatarSrc: '/images/avatars/1.png'
-  },
-  {
-    id: 2,
-    role: 'editor',
-    status: 'Active',
-    user_name: '@rcrawford1d',
-    avatarSrc: '/images/avatars/3.png',
-    email: 'estelle.Bailey10@gmail.com'
-  },
-  {
-    id: 3,
-    role: 'author',
-    status: 'Deactive',
-    user_name: '@lreese3b',
-    email: 'milo86@hotmail.com',
-    avatarSrc: '/images/avatars/2.png'
-  },
-  {
-    id: 4,
-    role: 'editor',
-    status: 'Pending',
-    user_name: '@rsims6f',
-    email: 'lonnie35@hotmail.com',
-    avatarSrc: '/images/avatars/5.png'
-  },
-  {
-    id: 5,
-    status: 'Active',
-    role: 'maintainer',
-    user_name: '@lyoung4a',
-    email: 'ahmad_Collins@yahoo.com',
-    avatarSrc: '/images/avatars/4.png'
-  },
-  {
-    id: 6,
-    role: 'editor',
-    status: 'Pending',
-    user_name: '@ffrank7e',
-    avatarSrc: '/images/avatars/7.png',
-    email: 'tillman.Gleason68@hotmail.com'
-  },
-  {
-    id: 7,
-    role: 'subscriber',
-    status: 'Deactive',
-    email: 'otho21@gmail.com',
-    user_name: '@ppatterson2g',
-    avatarSrc: '/images/avatars/8.png'
-  },
-  {
-    id: 8,
-    status: 'Active',
-    role: 'subscriber',
-    user_name: '@cunderwood8h',
-    avatarSrc: '/images/avatars/3.png',
-    email: 'florencio.Little@hotmail.com'
-  }
-]
 const UserTable = ({ users }: any) => {
   const [userList, setUserList] = useState(users);
   const [pageSize, setPageSize] = useState<number>(10);
   const [searchText, setSearchText] = useState("");
+  const [rows, setRows] = useState<TableBodyRowType[]>([]);
 
-  // const tableData = useMemo(() => {
-  //   if (searchText.length > 0) {
-  //     return userList.filter((row: any) => {
-  //       const firstNameMatch = row.first_name
-  //         ?.toLocaleLowerCase()
-  //         .includes(searchText.toLocaleLowerCase());
-  //       const lastNameMatch = row.last_name
-  //         ?.toLocaleLowerCase()
-  //         .includes(searchText.toLocaleLowerCase());
-  //       const emailMatch = row.email
-  //         ?.toLocaleLowerCase()
-  //         .includes(searchText.toLocaleLowerCase());
-  //       return firstNameMatch || lastNameMatch || emailMatch;
-  //     });
-  //   } else {
-  //     return userList;
-  //   }
-  // }, [users, userList, searchText]);
+  useEffect(() => {
+    async function fetchRows() {
+      try {
+        const jwt = localStorage.getItem('jwt');
+        const response = await axios.get("http://localhost:1337/api/resources", {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        });
+        const data = response.data.data;
+        setRows(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchRows();
+  }, []);
+
+  const tableData = useMemo(() => {
+    if (searchText.length > 0) {
+      return userList.filter((row: any) => {
+        const firstNameMatch = row.first_name
+          ?.toLocaleLowerCase()
+          .includes(searchText.toLocaleLowerCase());
+        const lastNameMatch = row.last_name
+          ?.toLocaleLowerCase()
+          .includes(searchText.toLocaleLowerCase());
+        const emailMatch = row.email
+          ?.toLocaleLowerCase()
+          .includes(searchText.toLocaleLowerCase());
+        return firstNameMatch || lastNameMatch || emailMatch;
+      });
+    } else {
+      return userList;
+    }
+  }, [users, userList, searchText]);
   const renderUserAvatar = (row: TableBodyRowType) => {
     let initials = null;
-    if (row.user_name) {
-      if (row.user_name.length >= 1) {
-        const firstInitial = row.user_name.split("");
+    if (row.attributes.name) {
+      if (row.attributes.name.length >= 1) {
+        const firstInitial = row.attributes.name.split("");
         initials = firstInitial[0].toUpperCase()
       }
     }
@@ -246,7 +126,7 @@ const UserTable = ({ users }: any) => {
     // } else {
     return (
       <CustomAvatar
-        skin="light"
+        skin="filled"
         sx={{ mr: 3, width: 34, height: 34, fontSize: ".8rem" }}
       >
         {initials != null ? initials : "--"}
@@ -272,12 +152,11 @@ const UserTable = ({ users }: any) => {
         field: "UserName",
         minWidth: 200,
         headerName: "UserName",
-        sortable: false,
         renderCell: ({ row }: CellType) => {
           return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {row.user_name ? row.user_name : null}
+                {row.attributes.name? row.attributes.name: null}
               </Typography>
             </Box>
           );
@@ -289,57 +168,57 @@ const UserTable = ({ users }: any) => {
         field: "email",
         headerName: "Email",
         renderCell: ({ row }: CellType) => (
-          <Typography variant="body2">{row.email}</Typography>
+          <Typography variant="body2">{row.attributes.email}</Typography>
         ),
       },
-      {
-        flex: 0.3,
-        minWidth: 130,
-        field: "role",
-        headerName: "role",
-        renderCell: ({ row }: CellType) => (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              sx={{ color: "text.secondary", textTransform: "capitalize" }}
-            >
-              {row.role ? row.role : null}
-            </Typography>
-          </Box>
-        ),
-      },
-      {
-        flex: 0.1,
-        minWidth: 250,
-        field: "phone",
-        headerName: "PhoneNumber",
-        renderCell: ({ row }: CellType) => (
-          <Typography variant="body2">
-            {row.phone_number ? row.phone_number : null}
-          </Typography>
-        ),
-      },
-      {
-        flex: 0.2,
-        minWidth: 110,
-        field: "status",
-        headerName: "Status",
-        renderCell: ({ row }: CellType) => (
-          <CustomChip
-            skin="light"
-            size="small"
-            label={row.status}
-            color={row.status ? statusObj[row.status].color : "primary"}
-            sx={{
-              textTransform: "capitalize",
-              "& .MuiChip-label": {
-                px: 2.5,
-                lineHeight: 1.385,
-                color: "#ffffff",
-              },
-            }}
-          />
-        ),
-      },
+      // {
+      //   flex: 0.3,
+      //   minWidth: 130,
+      //   field: "role",
+      //   headerName: "role",
+      //   renderCell: ({ row }: CellType) => (
+      //     <Box sx={{ display: "flex", alignItems: "center" }}>
+      //       <Typography
+      //         sx={{ color: "text.secondary", textTransform: "capitalize" }}
+      //       >
+      //         {row.role ? row.role : null}
+      //       </Typography>
+      //     </Box>
+      //   ),
+      // },
+      // {
+      //   flex: 0.1,
+      //   minWidth: 250,
+      //   field: "phone",
+      //   headerName: "PhoneNumber",
+      //   renderCell: ({ row }: CellType) => (
+      //     <Typography variant="body2">
+      //       {row.phone ? row.phone: null}
+      //     </Typography>
+      //   ),
+      // },
+      // {
+      //   flex: 0.2,
+      //   minWidth: 110,
+      //   field: "status",
+      //   headerName: "Status",
+      //   renderCell: ({ row }: CellType) => (
+      //     <CustomChip
+      //       // skin="light"
+      //       size="small"
+      //       label={row.status}
+      //       color={row.status ? statusObj[row.status].color : "primary"}
+      //       sx={{
+      //         textTransform: "capitalize",
+      //         "& .MuiChip-label": {
+      //           px: 2.5,
+      //           lineHeight: 1.385,
+      //           color: "#ffffff",
+      //         },
+      //       }}
+      //     />
+      //   ),
+      // },
       {
         flex: 0.15,
         minWidth: 110,
@@ -349,15 +228,14 @@ const UserTable = ({ users }: any) => {
         filterable: false,
         renderCell: ({ row }: CellType) => (
           <ActionsDropdown
-          // id={row.id.toString()}
+          id={row.id.toString()}
           // status={row.status}
-          // email={row.email}
-          // first_name={row.first_name}
-          // last_name={row.last_name}
+          email={row.attributes.email}
+          name={row.attributes.name}
           // role={row.role}
-          // phone_number={row.phone_number}
+          // phone={row.phone}
           // setUserList={setUserList}
-          // is_pending={row.is_pending}
+         // is_pending={row.is_pending}
           />
         ),
       },
