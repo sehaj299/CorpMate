@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "beckend",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
@@ -10,17 +10,17 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.9.1",
-    "@strapi/plugin-users-permissions": "4.9.1",
-    "@strapi/strapi": "4.9.1",
-    "better-sqlite3": "8.0.1",
-    "mysql": "^2.18.1"
+    "@strapi/plugin-i18n": "4.9.0",
+    "@strapi/plugin-users-permissions": "4.9.0",
+    "@strapi/strapi": "4.9.0",
+    "mysql": "2.18.1",
+    "passport": "^0.6.0"
   },
   "author": {
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "65412666-4941-4dfe-97ed-6adf320d9522"
+    "uuid": "5aefbcd4-735a-4b16-a5a2-33c3cb703c25"
   },
   "engines": {
     "node": ">=14.19.1 <=18.x.x",

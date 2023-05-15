@@ -89,8 +89,8 @@ const schema = yup.object().shape({
 });
 
 const defaultValues = {
-  password: "123123",
-  email: "kunalpurbia@gmail.com",
+  password: "Nitin123",
+  email: "saini1322nitin@gmail.com",
 };
 
 interface FormData {
@@ -122,8 +122,8 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    const { email, password } = data;    
-    
+    const { email, password } = data;
+
     try {
       const response = await fetch("http://localhost:1337/api/auth/local", {
         method: "POST",
