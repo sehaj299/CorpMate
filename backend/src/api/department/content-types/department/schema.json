@@ -18,11 +18,11 @@
     },
     "companyId": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "companyName": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "resources": {
       "type": "relation",
