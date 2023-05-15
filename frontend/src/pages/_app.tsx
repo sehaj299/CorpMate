@@ -10,8 +10,10 @@ import {
   SettingsConsumer,
   SettingsProvider,
 } from "src/@core/context/settingsContext";
-import '../assets/styles.scss';
+import "../assets/styles.scss";
 import "src/styles/globals.css";
+import { Provider } from "react-redux";
+import { store } from "src/store";
 type ExtendedAppProps = AppProps & {
   Component: NextPage;
   emotionCache: EmotionCache;
@@ -28,18 +30,20 @@ export default function App(props: ExtendedAppProps) {
 
   const setConfig = Component.setConfig ?? undefined;
   return (
-    <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-      <SettingsConsumer>
-        {({ settings }) => {
-          return (
-            <ThemeComponent settings={settings}>
-              <WindowWrapper>
-                {getLayout(<Component {...pageProps} />)}
-              </WindowWrapper>
-            </ThemeComponent>
-          );
-        }}
-      </SettingsConsumer>
-    </SettingsProvider>
+    <Provider store={store}>
+      <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+        <SettingsConsumer>
+          {({ settings }) => {
+            return (
+              <ThemeComponent settings={settings}>
+                <WindowWrapper>
+                  {getLayout(<Component {...pageProps} />)}
+                </WindowWrapper>
+              </ThemeComponent>
+            );
+          }}
+        </SettingsConsumer>
+      </SettingsProvider>
+    </Provider>
   );
 }
