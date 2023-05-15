@@ -1,0 +1,8 @@
+{
+  "method": "POST",
+  "path": "/login",
+  "handler": "user.login",
+  "config": {
+    "policies": []
+  }
+}
