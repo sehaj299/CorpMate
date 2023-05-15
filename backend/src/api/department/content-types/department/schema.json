@@ -28,13 +28,19 @@
 
     "companyId": {
       "type": "string",
+<<<<<<< HEAD
 
+=======
+>>>>>>> samir
       "required": false
     },
 
     "companyName": {
       "type": "string",
+<<<<<<< HEAD
 
+=======
+>>>>>>> samir
       "required": false
     },
 
