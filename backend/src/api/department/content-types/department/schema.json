@@ -1,15 +1,11 @@
 {
   "kind": "collectionType",
-
   "collectionName": "departments",
 
   "info": {
     "singularName": "department",
-
     "pluralName": "departments",
-
     "displayName": "Department",
-
     "description": ""
   },
 
@@ -22,35 +18,22 @@
   "attributes": {
     "name": {
       "type": "string",
-
       "required": true
     },
 
     "companyId": {
       "type": "string",
-<<<<<<< HEAD
-
-=======
->>>>>>> samir
       "required": false
     },
-
     "companyName": {
       "type": "string",
-<<<<<<< HEAD
-
-=======
->>>>>>> samir
       "required": false
     },
 
     "resources": {
       "type": "relation",
-
       "relation": "oneToMany",
-
       "target": "api::resource.resource",
-
       "mappedBy": "department"
     }
   }
