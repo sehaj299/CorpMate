@@ -135,7 +135,7 @@ const MyComponent = (): JSX.Element => {
     return (
       <>
         {departments.map((department) => (
-          <WithDepartment key={department.id} department={department} />
+          <WithDepartment key={department.id} />
         ))}
       </>
     );
