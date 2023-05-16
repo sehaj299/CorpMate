@@ -92,12 +92,6 @@ export default function NoDepartment() {
       }}
     >
       <Box sx={{ mb: 10, textAlign: "center" }}>
-        <Typography
-          variant="h5"
-          sx={{ mb: 2.5, fontSize: "1.5rem !important" }}
-        >
-          There are no department 🚀
-        </Typography>
         <Typography variant="body2">
           Click on the below button for add new department.
         </Typography>

@@ -109,7 +109,7 @@ const MyComponent = (): JSX.Element => {
             pathname: '/dashboard/departments/withDepartments',
           });
         } else {
-          router.push("/dashboard/departments/withoutDepartments");
+          router.push("/dashboard/departments/addDepartment");
         }
       })
       .catch((error) => {
