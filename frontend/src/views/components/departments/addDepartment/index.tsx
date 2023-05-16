@@ -35,6 +35,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
         "http://localhost:1337/api/departments",
         { data: { name: departmentName } }
       );
+      window.location.reload();
       onClose();
     } catch (error) {
       console.error(error);
