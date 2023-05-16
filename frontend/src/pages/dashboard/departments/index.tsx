@@ -99,8 +99,6 @@ interface DepartmentResponse {
 }
 
 const MyComponent = (): JSX.Element => {
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -109,7 +107,6 @@ const MyComponent = (): JSX.Element => {
         if (data.length !== 0) {
           router.push({
             pathname: '/dashboard/departments/withDepartments',
-            query: { departments },
           });
         } else {
           router.push("/dashboard/departments/withoutDepartments");
@@ -127,15 +124,12 @@ const MyComponent = (): JSX.Element => {
       await axios.get<DepartmentResponse>(
         "http://localhost:1337/api/departments"
       );
-    setDepartments(response.data.data);
-    console.log(response.data.data);
     return response.data.data
   };
 
   return (
     <div>
-      <h1>Welcome to my website</h1>
-      {/* ... */}
+      Loading ...
     </div>
   );
 };

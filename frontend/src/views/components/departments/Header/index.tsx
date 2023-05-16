@@ -40,7 +40,6 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       const addResponse = await axios.post(
         "http://localhost:1337/api/departments",
         { data: { name: departmentName } },
-        { headers: { Authorization: `Bearer ${jwt}` } }
       );
       console.log(`Department name: ${departmentName}`);
       console.log(addResponse);

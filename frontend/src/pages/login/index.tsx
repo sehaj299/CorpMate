@@ -144,7 +144,7 @@ const LoginPage = () => {
       const userData = JSON.stringify(loginData.user);
       localStorage.setItem("jwt", loginData.jwt);
       localStorage.setItem("user", userData);
-      window.location.assign("/home");
+      window.location.assign("/dashboard/resources");
     } catch (error) {
       console.error(error);
     }

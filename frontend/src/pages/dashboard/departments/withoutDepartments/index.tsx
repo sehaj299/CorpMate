@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -25,18 +26,18 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   ) => {
     setDepartmentName(event.target.value);
   };
+  const router = useRouter();
 
   const handleSave = async () => {
     try {
       const jwt = localStorage.getItem("jwt");
       const addResponse = await axios.post(
         "http://localhost:1337/api/departments",
-        { data: { name: departmentName } },
-        { headers: { Authorization: `Bearer ${jwt}` } }
+        { data: { name: departmentName } }
       );
-      console.log(`Department name: ${departmentName}`);
-      console.log(addResponse);
-      alert("Department saved successfully");
+      router.push({
+        pathname: '/dashboard/departments/withDepartments',
+      });
       onClose();
     } catch (error) {
       console.error(error);
