@@ -77,7 +77,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   );
 };
 
-const TabsForcedScroll = () => {
+const Header = () => {
   // ** State
   const [value, setValue] = useState<string>("");
   const [addUserOpen, setAddUserOpen] = useState<boolean>(false);
@@ -112,4 +112,4 @@ const TabsForcedScroll = () => {
     </TabContext>
   );
 };
-export default TabsForcedScroll;
+export default Header;

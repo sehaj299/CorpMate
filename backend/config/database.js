@@ -9,9 +9,9 @@ module.exports = ({ env }) => {
         connectionString: env('DATABASE_URL'),
         host: env('DATABASE_HOST', 'localhost'),
         port: env.int('DATABASE_PORT', 3306),
-        database: env('DATABASE_NAME', 'rpa'),
+        database: env('DATABASE_NAME', 'corpmate'),
         user: env('DATABASE_USERNAME', 'root'),
-        password: env('DATABASE_PASSWORD', '4321'),
+        password: env('DATABASE_PASSWORD', 'root'),
         ssl: env.bool('DATABASE_SSL', false) && {
           key: env('DATABASE_SSL_KEY', undefined),
           cert: env('DATABASE_SSL_CERT', undefined),
