@@ -6,6 +6,7 @@ import Tab from "@mui/material/Tab";
 
 // ** Icon Imports
 import Icon from "src/@core/components/icon";
+import { useState } from "react";
 
 interface TableHeaderProps {
   value: string;
@@ -14,8 +15,15 @@ interface TableHeaderProps {
 }
 
 const TableHeader = (props: TableHeaderProps) => {
+  const [ display, setDisplay ] = useState(true)
   // ** Props
-  const { handleFilter, toggle, value } = props;
+  const { handleFilter, toggle, value, handleViewChange } = props;
+
+  if(display === true) {
+    handleViewChange(true)
+  } else{
+    handleViewChange(false)
+  }
 
   return (
     <Box
@@ -29,10 +37,10 @@ const TableHeader = (props: TableHeaderProps) => {
       }}
     >
       <Box>
-        <Button>
+        <Button onClick={() => setDisplay(false)}>
           <Tab value="1" icon={<Icon icon="ic:baseline-grid-view" />} />
         </Button>
-        <Button>
+        <Button onClick={() => setDisplay(true)}>
           <Tab value="2" icon={<Icon icon="material-symbols:list" />} />
         </Button>
       </Box>
