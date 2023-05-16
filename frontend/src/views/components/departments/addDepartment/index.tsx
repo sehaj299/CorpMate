@@ -35,9 +35,6 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
         "http://localhost:1337/api/departments",
         { data: { name: departmentName } }
       );
-      router.push({
-        pathname: '/dashboard/departments/withDepartments',
-      });
       onClose();
     } catch (error) {
       console.error(error);
@@ -70,7 +67,7 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
   );
 };
 
-export default function NoDepartment() {
+export default function AddDepartment() {
   const [isAddDepartmentDialogOpen, setIsAddDepartmentDialogOpen] =
     React.useState(false);
 
@@ -89,9 +86,16 @@ export default function NoDepartment() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        marginTop: "20%"
       }}
     >
       <Box sx={{ mb: 10, textAlign: "center" }}>
+        <Typography
+          variant="h5"
+          sx={{ mb: 2.5, fontSize: "1.5rem !important" }}
+        >
+          There are no department 🏬
+        </Typography>
         <Typography variant="body2">
           Click on the below button for add new department.
         </Typography>

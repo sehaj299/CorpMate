@@ -2,7 +2,7 @@ import React from 'react'
 import Header from "src/views/components/departments/Header"
 
 
-const index = () => {
+const AllDepartments = () => {
   return (
     <>
       <Header />
@@ -10,4 +10,4 @@ const index = () => {
   )
 }
 
-export default index
+export default AllDepartments
