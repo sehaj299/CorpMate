@@ -4,7 +4,8 @@
   "info": {
     "singularName": "resource",
     "pluralName": "resources",
-    "displayName": "resource"
+    "displayName": "resource",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,6 +26,13 @@
       "relation": "manyToOne",
       "target": "api::department.department",
       "inversedBy": "resources"
+    },
+    "profileimage": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }

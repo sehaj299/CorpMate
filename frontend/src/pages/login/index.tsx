@@ -3,7 +3,7 @@ import { useState, ReactNode } from "react";
 
 // ** Next Imports
 import Link from "next/link";
-
+import Cookies from 'js-cookie';
 // ** MUI Components
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -143,8 +143,10 @@ const LoginPage = () => {
       const loginData = await response.json();
       const userData = JSON.stringify(loginData.user);
       localStorage.setItem("jwt", loginData.jwt);
+      // Cookies.set('jwt',loginData.jwt);
+      // Cookies.set("user", userData);
       localStorage.setItem("user", userData);
-      window.location.assign("/home");
+      window.location.assign("/dashboard/resources");
     } catch (error) {
       console.error(error);
     }

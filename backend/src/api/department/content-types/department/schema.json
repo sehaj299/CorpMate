@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "departmentname": {
+    "name": {
       "type": "string"
     },
     "resources": {

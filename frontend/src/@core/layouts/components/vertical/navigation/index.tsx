@@ -208,7 +208,7 @@ const Navigation = (props: Props) => {
                       <path
                         d="M10 2.69L15 7.19V15H13V9H7V15H5V7.19L10 2.69ZM10 0L0 9H3V17H9V11H11V17H17V9H20L10 0Z"
                         fill="#3A3541"
-                        fill-opacity="0.87"
+                        fillOpacity="0.87"
                       />
                     </svg>
                   </NavIcon>
@@ -234,7 +234,7 @@ const Navigation = (props: Props) => {
                       <path
                         d="M10 2.69L15 7.19V15H13V9H7V15H5V7.19L10 2.69ZM10 0L0 9H3V17H9V11H11V17H17V9H20L10 0Z"
                         fill="#3A3541"
-                        fill-opacity="0.87"
+                        fillOpacity="0.87"
                       />
                     </svg>
                   </NavIcon>
@@ -260,7 +260,7 @@ const Navigation = (props: Props) => {
                       <path
                         d="M16 2H11.82C11.4 0.84 10.3 0 9 0C7.7 0 6.6 0.84 6.18 2H2C0.9 2 0 2.9 0 4V20C0 21.1 0.9 22 2 22H16C17.1 22 18 21.1 18 20V4C18 2.9 17.1 2 16 2ZM9 2C9.55 2 10 2.45 10 3C10 3.55 9.55 4 9 4C8.45 4 8 3.55 8 3C8 2.45 8.45 2 9 2ZM16 20H2V4H4V7H14V4H16V20Z"
                         fill="#3A3541"
-                        fill-opacity="0.87"
+                        fillOpacity="0.87"
                       />
                     </svg>
                   </NavIcon>
@@ -286,7 +286,7 @@ const Navigation = (props: Props) => {
                       <path
                         d="M8 1.9C9.16 1.9 10.1 2.84 10.1 4C10.1 5.16 9.16 6.1 8 6.1C6.84 6.1 5.9 5.16 5.9 4C5.9 2.84 6.84 1.9 8 1.9ZM8 10.9C10.97 10.9 14.1 12.36 14.1 13V14.1H1.9V13C1.9 12.36 5.03 10.9 8 10.9ZM8 0C5.79 0 4 1.79 4 4C4 6.21 5.79 8 8 8C10.21 8 12 6.21 12 4C12 1.79 10.21 0 8 0ZM8 9C5.33 9 0 10.34 0 13V16H16V13C16 10.34 10.67 9 8 9Z"
                         fill="#3A3541"
-                        fill-opacity="0.87"
+                        fillOpacity="0.87"
                       />
                     </svg>
                   </NavIcon>

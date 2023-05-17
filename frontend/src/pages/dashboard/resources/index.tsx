@@ -71,7 +71,7 @@ const UserTable = ({ users }: any) => {
     async function fetchRows() {
       try {
         const jwt = localStorage.getItem('jwt');
-        const response = await axios.get("http://localhost:1337/api/resources", {
+        const response = await axios.get("http://localhost:1337/api/resources?populate=*", {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
@@ -87,18 +87,20 @@ const UserTable = ({ users }: any) => {
   }, []);
 
   const tableData = useMemo(() => {
+    console.log(userList);
+
     if (searchText.length > 0) {
       return userList.filter((row: any) => {
-        const firstNameMatch = row.first_name
+        const firstNameMatch = row.attributes.name
+          ?.toLocaleLowerCase()
+        //   .includes(searchText.toLocaleLowerCase());
+        // const lastNameMatch = row.last_name
           ?.toLocaleLowerCase()
           .includes(searchText.toLocaleLowerCase());
-        const lastNameMatch = row.last_name
+        const emailMatch = row.attributes.email
           ?.toLocaleLowerCase()
           .includes(searchText.toLocaleLowerCase());
-        const emailMatch = row.email
-          ?.toLocaleLowerCase()
-          .includes(searchText.toLocaleLowerCase());
-        return firstNameMatch || lastNameMatch || emailMatch;
+        return firstNameMatch || emailMatch;
       });
     } else {
       return userList;
@@ -112,11 +114,11 @@ const UserTable = ({ users }: any) => {
         initials = firstInitial[0].toUpperCase()
       }
     }
-    // const filepath = row.profile_image_url;
+    // const filepath = row.attributes.profile_image_url;
     // const { data: userImage } = supaBase.storage
     //   .from("profile-images")
     //   .getPublicUrl(`${filepath}`);
-    // if (row.profile_image_url) {
+    // if (row.attributes.profile_image_url) {
     //   return (
     //     <CustomAvatar
     //       src={userImage.publicUrl}
@@ -234,9 +236,10 @@ const UserTable = ({ users }: any) => {
           name={row.attributes.name}
           // role={row.role}
           // phone={row.phone}
-          // setUserList={setUserList}
+           setUserList={row.attributes}
          // is_pending={row.is_pending}
-          />
+
+         />
         ),
       },
     ];
