@@ -11,7 +11,8 @@ import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 
 // ** Icon Imports
 import Icon from "src/@core/components/icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const StyledList = styled(List)<ListProps>(({ theme }) => ({
   "& .MuiListItem-container": {
@@ -42,9 +43,27 @@ const StyledList = styled(List)<ListProps>(({ theme }) => ({
 
 const ListUsers = () => {
   const [showActions, setShowActions] = useState(false);
-
+  const [department, setDepartment] = useState([]);
   const handleToggleActions = () => {
     setShowActions(!showActions);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const jwt = localStorage.getItem("jwt");
+    await axios
+      .get("http://localhost:1337/api/departments", {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+      .then((response) => {
+        setDepartment(response.data.data);
+        console.log(response.data.data);
+      });
   };
   return (
     <>

@@ -83,7 +83,7 @@ const UserTable = ({ users }: any) => {
         console.log(error);
       }
     }
-    fetchRows();
+    fetchRows();    
   }, []);
 
   const tableData = useMemo(() => {

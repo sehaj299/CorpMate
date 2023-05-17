@@ -11,7 +11,7 @@ import ListUsers from "src/views/components/list/ListUsers";
 // ** Source code imports
 import * as source from "src/views/components/list/ListSourceCode";
 
-const List = () => {
+const UserList = () => {
   return (
     <Grid className="match-height" container spacing={6}>
       <Grid item sx={{ width: "100%" }}>
@@ -21,4 +21,4 @@ const List = () => {
   );
 };
 
-export default List;
+export default UserList;

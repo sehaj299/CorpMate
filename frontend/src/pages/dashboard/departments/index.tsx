@@ -29,10 +29,15 @@ const MyComponent = (): JSX.Element => {
   // Function to fetch data from API
   const fetchData = async () => {
     try {
-      const response: AxiosResponse<DepartmentResponse> =
-        await axios.get<DepartmentResponse>(
-          "http://localhost:1337/api/departments"
-        );
+      const jwt = localStorage.getItem("jwt");
+      const response: AxiosResponse<DepartmentResponse> = await axios.get<DepartmentResponse>(
+        "http://localhost:1337/api/departments",
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
       const departmentData = response.data.data;
       setDepartments(departmentData);
       setLoading(false);
@@ -41,6 +46,7 @@ const MyComponent = (): JSX.Element => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div>

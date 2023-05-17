@@ -33,7 +33,12 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       const jwt = localStorage.getItem("jwt");
       const addResponse = await axios.post(
         "http://localhost:1337/api/departments",
-        { data: { name: departmentName } }
+        { data: { name: departmentName } },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
       );
       window.location.reload();
       onClose();
@@ -87,7 +92,7 @@ export default function AddDepartment() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        marginTop: "20%"
+        marginTop: "20%",
       }}
     >
       <Box sx={{ mb: 10, textAlign: "center" }}>

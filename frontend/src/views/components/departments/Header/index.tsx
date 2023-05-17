@@ -36,11 +36,14 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
       const jwt = localStorage.getItem("jwt");
       const addResponse = await axios.post(
         "http://localhost:1337/api/departments",
-        { data: { name: departmentName } }
+        { data: { name: departmentName } },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
       );
-      console.log(`Department name: ${departmentName}`);
-      console.log(addResponse);
-      alert("Department saved successfully");
+      window.location.reload();
       onClose();
     } catch (error) {
       console.error(error);
