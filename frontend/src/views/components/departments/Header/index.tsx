@@ -78,9 +78,10 @@ const AddDepartmentDialog: React.FC<AddDepartmentDialogProps> = ({
 
 interface HeaderProps {
   displayChange: (childState: any) => void;
+  searchData: (childState: any) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ displayChange }) => {
+const Header: React.FC<HeaderProps> = ({ displayChange, searchData }) => {
   const [value, setValue] = useState<string>("");
   const [addUserOpen, setAddUserOpen] = useState<boolean>(false);
   const [isAddDepartmentDialogOpen, setIsAddDepartmentDialogOpen] =
@@ -95,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ displayChange }) => {
   };
 
   const handleFilter = useCallback((val: string) => {
-    setValue(val);
+    searchData(val)
   }, []);
 
   const handleViewChange = (childState: any) => {

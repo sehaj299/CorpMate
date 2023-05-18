@@ -1,35 +1,21 @@
 {
   "kind": "collectionType",
   "collectionName": "departments",
-
   "info": {
     "singularName": "department",
     "pluralName": "departments",
     "displayName": "Department",
     "description": ""
   },
-
   "options": {
     "draftAndPublish": true
   },
-
   "pluginOptions": {},
-
   "attributes": {
     "name": {
       "type": "string",
       "required": true
     },
-
-    "companyId": {
-      "type": "string",
-      "required": false
-    },
-    "companyName": {
-      "type": "string",
-      "required": false
-    },
-
     "resources": {
       "type": "relation",
       "relation": "oneToMany",
