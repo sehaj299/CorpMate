@@ -39,7 +39,7 @@ const AppBarContent = (props: Props) => {
       {userAppBarBranding ? (
         userAppBarBranding(props)
       ) : (
-        <StyledLink href='/dashboard/'>
+        <StyledLink href='/dashboard/resources/'>
           <Box sx={{height: '60px', width: '200px', objectFit: "contain"}}>
             <img src="/logo-name.png" />
           </Box>

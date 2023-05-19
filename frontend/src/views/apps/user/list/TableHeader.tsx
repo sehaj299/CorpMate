@@ -15,14 +15,21 @@ interface TableHeaderProps {
 }
 
 const TableHeader = (props: TableHeaderProps) => {
-  const [ display, setDisplay ] = useState(true)
+  const [display, setDisplay] = useState(true);
   // ** Props
   const { handleFilter, toggle, value, handleViewChange } = props;
+  const [searchValue, setSearchValue] = useState(value);
 
-  if(display === true) {
-    handleViewChange(true)
-  } else{
-    handleViewChange(false)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setSearchValue(newValue);
+    handleFilter(newValue);
+  };
+
+  if (display === true) {
+    handleViewChange(true);
+  } else {
+    handleViewChange(false);
   }
 
   return (
@@ -47,12 +54,11 @@ const TableHeader = (props: TableHeaderProps) => {
       <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <TextField
           size="small"
-          value={value}
+          value={searchValue}
           sx={{ mr: 6, mb: 2 }}
-          placeholder="Search User"
-          onChange={(e) => handleFilter(e.target.value)}
+          placeholder="Search"
+          onChange={handleChange}
         />
-
         <Button sx={{ mb: 2 }} onClick={toggle} variant="contained">
           Add Department
         </Button>

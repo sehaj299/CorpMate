@@ -192,7 +192,7 @@ const Navigation = (props: Props) => {
               ? beforeNavMenuContent(props)
               : null}
             <List className="nav-items" sx={{ pt: 0, pr: "30px" }}>
-              <Link href="/dashboard/resources">
+              <Link href="/dashboard/resources/">
                 <NavItem className={`nav-item ${pathname.includes("/dashboard/resources/")
                   ? "active-nav"
                   : null
@@ -215,7 +215,7 @@ const Navigation = (props: Props) => {
                   Resources
                 </NavItem>
               </Link>
-              <Link href="/dashboard/departments">
+              <Link href="/dashboard/departments/">
                 <NavItem
                   className={`nav-item ${pathname.includes("/dashboard/departments")
                     ? "active-nav"

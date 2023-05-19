@@ -127,7 +127,7 @@ const VerticalNavHeader = (props: Props) => {
       {userNavMenuBranding ? (
         userNavMenuBranding(props)
       ) : (
-        <StyledLink href='/dashboard/'>
+        <StyledLink href='/dashboard/resources/'>
           <Box sx={{ height: '60px', width: '130px', objectFit: "contain" }}>
             <img src="/logo-name.png" />
           </Box>

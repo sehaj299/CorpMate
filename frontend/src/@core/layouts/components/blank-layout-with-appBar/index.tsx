@@ -42,7 +42,7 @@ const BlankLayoutAppBar = () => {
           minHeight: `${(theme.mixins.toolbar.minHeight as number) - (skin === 'bordered' ? 1 : 0)}px !important`
         }}
       >
-        <StyledLink href='/dashboard/'>
+        <StyledLink href='/dashboard/resources/'>
           <Box sx={{ height: '60px', objectFit: "contain", width: '200px' }}>
             <img src="/logo-name.png" />
           </Box>
