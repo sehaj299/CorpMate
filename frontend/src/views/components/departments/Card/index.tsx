@@ -322,7 +322,7 @@ const UserCard: React.FC<UserCardProps> = ({ searchData }) => {
               {resources.length > 0 ? (
                 resources.map((resource) => (
                   <Typography key={resource.id} variant="body1">
-                    {resource.name}
+                    {resource.attributes.name}
                   </Typography>
                 ))
               ) : (

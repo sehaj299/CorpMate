@@ -9,6 +9,7 @@ import {
   Avatar,
   Typography,
   Modal,
+  Grid,
 } from "@mui/material";
 import {
   Add,
@@ -103,122 +104,267 @@ const ListComponent: React.FC = ({ searchData }) => {
     alert(`Delete Department ID: ${id}`);
   };
 
+  const filteredDepartments = departments.filter((department) =>
+    (department.attributes.name ?? "")
+      .toLowerCase()
+      .includes(searchData?.toLowerCase() ?? "")
+  );
+
   return (
     <>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {departments.map((department) => (
-          <li
-            key={department.id}
+      {searchData ? (
+        <div>
+          <ul
             style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "1rem",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              padding: "0.5rem",
+              listStyle: "none",
+              padding: 0,
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-              <Box
-                sx={{
+            {filteredDepartments.length > 0 ? (
+              filteredDepartments.map((department) => (
+                <li
+                  key={department.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "0.5rem",
+                  }}
+                >
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginRight: "1em",
+                        marginLeft: "1em",
+                      }}
+                    >
+                      <Avatar
+                        sx={{
+                          bgcolor: "#9db2f2",
+                          color: "#fff",
+                          width: 35,
+                          height: 35,
+                        }}
+                      >
+                        {department.attributes.name.charAt(0).toUpperCase()}
+                      </Avatar>
+                    </Box>
+                    <span>{department.attributes.name}</span>
+                  </Box>
+                  <Box>
+                    <IconButton size="small" onClick={handleOpenPopup}>
+                      <Avatar
+                        sx={{
+                          bgcolor: "#3f51b5",
+                          color: "#fff",
+                          marginRight: "1em",
+                          width: 30,
+                          height: 30,
+                        }}
+                      >
+                        <Add />
+                      </Avatar>
+                      <Typography sx={{ fontSize: "0.9em" }}>
+                        Assign Resources
+                      </Typography>
+                    </IconButton>
+                    <IconButton
+                      onClick={(event) => openMenu(event, department.id)}
+                      size="small"
+                    >
+                      <MoreVert />
+                    </IconButton>
+                    <Menu
+                      anchorEl={openMenus[department.id]}
+                      open={Boolean(openMenus[department.id])}
+                      onClose={() => closeMenu(department.id)}
+                    >
+                      <MenuItem onClick={() => handleEdit(department.id)}>
+                        <ListItemText
+                          disableTypography
+                          primary={
+                            <Typography variant="body2">
+                              Edit Department
+                            </Typography>
+                          }
+                        />
+                      </MenuItem>
+                      <MenuItem onClick={() => handleDelete(department.id)}>
+                        <ListItemText
+                          disableTypography
+                          primary={
+                            <Typography
+                              variant="body2"
+                              sx={{ fontSize: 14, color: "#ff0000" }}
+                            >
+                              Delete Department
+                            </Typography>
+                          }
+                        />
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                </li>
+              ))
+            ) : (
+              <Grid item>
+                <Typography variant="body2">No departments found</Typography>
+              </Grid>
+            )}
+          </ul>
+
+          <Modal open={openPopup} onClose={handleClosePopup}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                bgcolor: "background.paper",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography variant="h6">Resources</Typography>
+              {resources.length > 0 ? (
+                resources.map((resource) => (
+                  <Typography key={resource.id} variant="body1">
+                    {resource.attributes.name}
+                  </Typography>
+                ))
+              ) : (
+                <Typography variant="body2">No resources found</Typography>
+              )}
+            </Box>
+          </Modal>
+        </div>
+      ) : (
+        <div>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+            }}
+          >
+            {departments.map((department) => (
+              <li
+                key={department.id}
+                style={{
                   display: "flex",
                   alignItems: "center",
-                  marginRight: "1em",
-                  marginLeft: "1em",
+                  padding: "0.5rem",
                 }}
               >
-                <Avatar
-                  sx={{
-                    bgcolor: "#3f51b5",
-                    color: "#fff",
-                    width: 30,
-                    height: 30,
-                  }}
+                <Box
+                  sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}
                 >
-                  {department.attributes.name.charAt(0).toUpperCase()}
-                </Avatar>
-              </Box>
-              <span>{department.attributes.name}</span>
-            </Box>
-            <Box>
-              <IconButton size="small" onClick={handleOpenPopup}>
-                <Avatar
-                  sx={{
-                    bgcolor: "#3f51b5",
-                    color: "#fff",
-                    marginRight: "1em",
-                    width: 30,
-                    height: 30,
-                  }}
-                >
-                  <Add />
-                </Avatar>
-                <Typography sx={{ fontSize: "0.9em" }}>
-                  Assign Resources
-                </Typography>
-              </IconButton>
-              <IconButton
-                onClick={(event) => openMenu(event, department.id)}
-                size="small"
-              >
-                <MoreVert />
-              </IconButton>
-              <Menu
-                anchorEl={openMenus[department.id]}
-                open={Boolean(openMenus[department.id])}
-                onClose={() => closeMenu(department.id)}
-              >
-                <MenuItem onClick={() => handleEdit(department.id)}>
-                  <ListItemText
-                    disableTypography
-                    primary={
-                      <Typography variant="body2">Edit Department</Typography>
-                    }
-                  />
-                </MenuItem>
-                <MenuItem onClick={() => handleDelete(department.id)}>
-                  <ListItemText
-                    disableTypography
-                    primary={
-                      <Typography
-                        variant="body2"
-                        sx={{ fontSize: 14, color: "#ff0000" }}
-                      >
-                        Delete Department
-                      </Typography>
-                    }
-                  />
-                </MenuItem>
-              </Menu>
-            </Box>
-          </li>
-        ))}
-      </ul>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginRight: "1em",
+                      marginLeft: "1em",
+                    }}
+                  >
+                    <Avatar
+                      sx={{
+                        bgcolor: "#9db2f2",
+                        color: "#fff",
+                        width: 35,
+                        height: 35,
+                      }}
+                    >
+                      {department.attributes.name.charAt(0).toUpperCase()}
+                    </Avatar>
+                  </Box>
+                  <span>{department.attributes.name}</span>
+                </Box>
+                <Box>
+                  <IconButton size="small" onClick={handleOpenPopup}>
+                    <Avatar
+                      sx={{
+                        bgcolor: "#3f51b5",
+                        color: "#fff",
+                        marginRight: "1em",
+                        width: 30,
+                        height: 30,
+                      }}
+                    >
+                      <Add />
+                    </Avatar>
+                    <Typography sx={{ fontSize: "0.9em" }}>
+                      Assign Resources
+                    </Typography>
+                  </IconButton>
+                  <IconButton
+                    onClick={(event) => openMenu(event, department.id)}
+                    size="small"
+                  >
+                    <MoreVert />
+                  </IconButton>
+                  <Menu
+                    anchorEl={openMenus[department.id]}
+                    open={Boolean(openMenus[department.id])}
+                    onClose={() => closeMenu(department.id)}
+                  >
+                    <MenuItem onClick={() => handleEdit(department.id)}>
+                      <ListItemText
+                        disableTypography
+                        primary={
+                          <Typography variant="body2">
+                            Edit Department
+                          </Typography>
+                        }
+                      />
+                    </MenuItem>
+                    <MenuItem onClick={() => handleDelete(department.id)}>
+                      <ListItemText
+                        disableTypography
+                        primary={
+                          <Typography
+                            variant="body2"
+                            sx={{ fontSize: 14, color: "#ff0000" }}
+                          >
+                            Delete Department
+                          </Typography>
+                        }
+                      />
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              </li>
+            ))}
+          </ul>
 
-      <Modal open={openPopup} onClose={handleClosePopup}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography variant="h6">Resources</Typography>
-          {resources.length > 0 ? (
-            resources.map((resource) => (
-              <Typography key={resource.id} variant="body1">
-                {resource.attributes.name}
-              </Typography>
-            ))
-          ) : (
-            <Typography variant="body2">No resources found</Typography>
-          )}
-        </Box>
-      </Modal>
+          <Modal open={openPopup} onClose={handleClosePopup}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                bgcolor: "background.paper",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography variant="h6">Resources</Typography>
+              {resources.length > 0 ? (
+                resources.map((resource) => (
+                  <Typography key={resource.id} variant="body1">
+                    {resource.attributes.name}
+                  </Typography>
+                ))
+              ) : (
+                <Typography variant="body2">No resources found</Typography>
+              )}
+            </Box>
+          </Modal>
+        </div>
+      )}
     </>
   );
 };
