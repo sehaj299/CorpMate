@@ -1,75 +1,226 @@
-// ** MUI Imports
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import ListItem from "@mui/material/ListItem";
-import { styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
-import List, { ListProps } from "@mui/material/List";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
-
-// ** Icon Imports
-import Icon from "src/@core/components/icon";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  Typography,
+  Modal,
+} from "@mui/material";
+import {
+  Add,
+  MoreVert,
+  Edit,
+  Delete,
+  AccountCircle,
+} from "@mui/icons-material";
 import axios from "axios";
 
-const StyledList = styled(List)<ListProps>(({ theme }) => ({
-  "& .MuiListItem-container": {
-    border: `2px solid ${theme.palette.divider}`,
-    "&:first-of-type": {
-      borderTopLeftRadius: theme.shape.borderRadius,
-      borderTopRightRadius: theme.shape.borderRadius,
-    },
-    "&:last-child": {
-      borderBottomLeftRadius: theme.shape.borderRadius,
-      borderBottomRightRadius: theme.shape.borderRadius,
-    },
-    "&:not(:last-child)": {
-      borderBottom: 0,
-    },
-    "& .MuiListItem-root": {
-      paddingRight: theme.spacing(24),
-      marginBottom: theme.spacing(1),
-    },
-    "& .MuiListItemText-root": {
-      marginTop: 0,
-      "& .MuiTypography-root": {
-        fontWeight: 500,
-      },
-    },
-  },
-}));
-
-const ListUsers = ({ searchData }) => {
-  const [showActions, setShowActions] = useState(false);
-  const [department, setDepartment] = useState([]);
-  const handleToggleActions = () => {
-    setShowActions(!showActions);
+interface Department {
+  id: number;
+  attributes: {
+    name: string;
   };
+}
+
+const ListComponent: React.FC = ({ searchData }) => {
+  const [openMenus, setOpenMenus] = useState<{
+    [id: number]: HTMLElement | null;
+  }>({});
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [resources, setResources] = useState<Resource[]>([]);
 
   useEffect(() => {
-    fetchData();
+    async function fetchDepartments() {
+      try {
+        const jwt = localStorage.getItem("jwt");
+        const response = await axios.get<{ data: Department[] }>(
+          "http://localhost:1337/api/departments",
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        const data = response.data.data;
+        setDepartments(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchDepartments();
   }, []);
 
-  const fetchData = async () => {
-    const jwt = localStorage.getItem("jwt");
-    await axios
-      .get("http://localhost:1337/api/departments", {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      })
-      .then((response) => {
-        setDepartment(response.data.data);
-      });
+  const handleOpenPopup = async () => {
+    setOpenPopup(true);
+    try {
+      const jwt = localStorage.getItem("jwt");
+      const response = await axios.get<{ data: Resource[] }>(
+        "http://localhost:1337/api/resources",
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      const data = response.data.data;
+      console.log(data);
+      setResources(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const filteredDepartments = department.filter((data) =>
-    (data.attributes.name ?? "").toLowerCase().includes(searchData?.toLowerCase() ?? '')
-  );
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
 
-  return <>{searchData ? <h1>Hello</h1> : <h1>Hii</h1>}</>;
+  const openMenu = (event: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    setOpenMenus((prevOpenMenus) => ({
+      ...prevOpenMenus,
+      [id]: event.currentTarget,
+    }));
+  };
+
+  const closeMenu = (id: number) => {
+    setOpenMenus((prevOpenMenus) => ({
+      ...prevOpenMenus,
+      [id]: null,
+    }));
+  };
+
+  const handleEdit = (id: number) => {
+    closeMenu(id);
+    alert(`Edit Department ID: ${id}`);
+  };
+
+  const handleDelete = (id: number) => {
+    closeMenu(id);
+    alert(`Delete Department ID: ${id}`);
+  };
+
+  return (
+    <>
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {departments.map((department) => (
+          <li
+            key={department.id}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "1rem",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+              padding: "0.5rem",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginRight: "1em",
+                  marginLeft: "1em",
+                }}
+              >
+                <Avatar
+                  sx={{
+                    bgcolor: "#3f51b5",
+                    color: "#fff",
+                    width: 30,
+                    height: 30,
+                  }}
+                >
+                  {department.attributes.name.charAt(0).toUpperCase()}
+                </Avatar>
+              </Box>
+              <span>{department.attributes.name}</span>
+            </Box>
+            <Box>
+              <IconButton size="small" onClick={handleOpenPopup}>
+                <Avatar
+                  sx={{
+                    bgcolor: "#3f51b5",
+                    color: "#fff",
+                    marginRight: "1em",
+                    width: 30,
+                    height: 30,
+                  }}
+                >
+                  <Add />
+                </Avatar>
+                <Typography sx={{ fontSize: "0.9em" }}>
+                  Assign Resources
+                </Typography>
+              </IconButton>
+              <IconButton
+                onClick={(event) => openMenu(event, department.id)}
+                size="small"
+              >
+                <MoreVert />
+              </IconButton>
+              <Menu
+                anchorEl={openMenus[department.id]}
+                open={Boolean(openMenus[department.id])}
+                onClose={() => closeMenu(department.id)}
+              >
+                <MenuItem onClick={() => handleEdit(department.id)}>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Typography variant="body2">Edit Department</Typography>
+                    }
+                  />
+                </MenuItem>
+                <MenuItem onClick={() => handleDelete(department.id)}>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Typography
+                        variant="body2"
+                        sx={{ fontSize: 14, color: "#ff0000" }}
+                      >
+                        Delete Department
+                      </Typography>
+                    }
+                  />
+                </MenuItem>
+              </Menu>
+            </Box>
+          </li>
+        ))}
+      </ul>
+
+      <Modal open={openPopup} onClose={handleClosePopup}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography variant="h6">Resources</Typography>
+          {resources.length > 0 ? (
+            resources.map((resource) => (
+              <Typography key={resource.id} variant="body1">
+                {resource.attributes.name}
+              </Typography>
+            ))
+          ) : (
+            <Typography variant="body2">No resources found</Typography>
+          )}
+        </Box>
+      </Modal>
+    </>
+  );
 };
 
-export default ListUsers;
+export default ListComponent;
