@@ -28,13 +28,29 @@ const DepartmentLogo = styled(Box)(({ theme }) => ({
   height: 30,
   margin: "1em",
   borderRadius: "50%",
-  backgroundColor: "#666CFF",
+  backgroundColor: "#9db2f2",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   fontSize: "1rem",
+  color: "#ffffff",
+  // border: `1px solid black`,
+}));
+
+// for testing purpose
+const AssignDepartmentLogo = styled(Box)(({ theme }) => ({
+  width: 30,
+  height: 30,
+  margin: "1em",
+  borderRadius: "50%",
+  backgroundColor: "#666cff",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign: "center",
+  fontSize: "1rem",
   color: "white",
-  border: `1px solid black`,
+  // border: `1px solid black`,
 }));
 
 const DepartmentItem = styled(ListItem)(({ theme }) => ({
@@ -42,6 +58,8 @@ const DepartmentItem = styled(ListItem)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
+  backgroundColor: "#ffffff",
+  borderRadius: 20,
 }));
 
 const UserList = () => {
@@ -93,6 +111,18 @@ const UserList = () => {
   const handleClosePopup = () => {
     setOpenPopup(false);
   };
+  function getInitials(name: string): string {
+    const words = name.trim().split(" ");
+    let initials = "";
+    if (words.length > 0) {
+      initials += words[0].charAt(0).toUpperCase();
+      if (words.length > 1) {
+        initials += words[1].charAt(0).toUpperCase();
+      }
+    }
+    return initials;
+  }
+
 
   return (
     <>
@@ -101,7 +131,7 @@ const UserList = () => {
           {departments.map((department) => (
             <DepartmentItem key={department.id}>
               <DepartmentLogo>
-                {department.attributes.name.charAt(0).toUpperCase()}
+              {getInitials(department.attributes.name)}
               </DepartmentLogo>
               <ListItemText
                 primary={
@@ -111,11 +141,17 @@ const UserList = () => {
                 }
               />
               <IconButton onClick={handleOpenPopup}>
-                <Icon icon="solar:add-circle-linear" fontSize="2rem" />
+                <AssignDepartmentLogo>{"+"}</AssignDepartmentLogo>
                 <h6>Assign Resources</h6>
               </IconButton>
               <OptionsMenu
-                options={["Edit Department", "Delete Department"]}
+                options={[
+                  "Edit Department",
+                  {
+                    text: "Delete Department",
+                    menuItemProps: { sx: { color: "error.main" } },
+                  },
+                ]}
                 iconButtonProps={{
                   size: "small",
                   className: "card-more-options",

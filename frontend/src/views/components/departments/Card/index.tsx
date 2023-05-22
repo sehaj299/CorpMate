@@ -5,9 +5,10 @@ import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import OptionsMenu from "src/@core/components/option-menu";
 import Icon from "src/@core/components/icon";
-import { IconButton, Modal } from "@mui/material";
+import { IconButton, Modal, styled } from "@mui/material";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
+import { shadows } from "@mui/system";
 
 interface Department {
   id: number;
@@ -71,6 +72,32 @@ const UserCard = () => {
   const handleClosePopup = () => {
     setOpenPopup(false);
   };
+  const AssignDepartmentLogo = styled(Box)(({ theme }) => ({
+    width: 40,
+    height: 40,
+    margin: "1em",
+    borderRadius: "50%",
+    backgroundColor: "#666cff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: "1rem",
+    color: "white",
+
+    // border: `1px solid black`,
+  }));
+  function getInitials(name: string): string {
+    const words = name.trim().split(" ");
+    let initials = "";
+    if (words.length > 0) {
+      initials += words[0].charAt(0).toUpperCase();
+      if (words.length > 1) {
+        initials += words[1].charAt(0).toUpperCase();
+      }
+    }
+    return initials;
+  }
 
   return (
     <Box
@@ -92,18 +119,29 @@ const UserCard = () => {
         {departments.length > 0 ? (
           departments.map((department) => (
             <Grid item key={department.id} xs={12} sm={6} md={4}>
-              <Card sx={{ position: "relative", marginBottom: "1rem" }}>
+              <Card sx={{ position: "relative", margin: "1rem", width: 300 }}>
                 <Box
                   sx={{
                     height: 65,
-                    bgcolor: "#66b8ff",
+                    bgcolor: "#f3f4ff",
                     display: "flex",
                     justifyContent: "flex-end",
                   }}
                 >
                   <OptionsMenu
-                    options={["Edit Department", "Delete Department"]}
+                    options={[
+                      "Edit Department",
+                      {
+                        text: "Delete Department",
+                        menuItemProps: { sx: { color: "error.main" } },
+                      },
+                    ]}
                     iconButtonProps={{
+                      sx: {
+                        margin: "14",
+
+                        color: "#a4a6b6", // Replace with your desired hexagon color
+                      },
                       size: "small",
                       className: "card-more-options",
                     }}
@@ -111,6 +149,9 @@ const UserCard = () => {
                   {department.attributes.name && (
                     <Box
                       sx={{
+                        backgroundColor: "#9db2f2",
+
+                        color: "#ffffff",
                         top: 40,
                         left: "50%",
                         transform: "translateX(-50%)",
@@ -118,15 +159,16 @@ const UserCard = () => {
                         height: 50,
                         position: "absolute",
                         borderRadius: "50%",
-                        bgcolor: "#fff",
+                        // fontSize: 12,
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        fontSize: "2rem",
-                        border: 1,
+                        fontSize: "1rem",
+                        borderTop: 1,
+                        boxShadow: "inset 0px 0px 0px 3px",
                       }}
                     >
-                      {department.attributes.name.charAt(0).toUpperCase()}
+                      {getInitials(department.attributes.name)}
                     </Box>
                   )}
                 </Box>
@@ -166,7 +208,7 @@ const UserCard = () => {
                     }}
                   >
                     <IconButton onClick={handleOpenPopup}>
-                      <Icon icon="solar:add-circle-linear" fontSize="2rem" />
+                      <AssignDepartmentLogo>{"+"}</AssignDepartmentLogo>
                     </IconButton>
                     <Typography variant="h6">Assign Resources</Typography>
                   </Box>
